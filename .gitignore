@@ -1,15 +1,14 @@
+
 *~
 *.swp
 
 .classpath
 .project
 
-/bin/keyword/*
 /bin/lib/Temp*.class
-!/bin/lib/internal/GlobalVariable.class
-/bin/listener/*
-/Libs/Temp*.groovy
+/libs/Temp*.groovy
 
 Materials/
 Reports/
-tmp/
+/bin/
+Excel\ files/

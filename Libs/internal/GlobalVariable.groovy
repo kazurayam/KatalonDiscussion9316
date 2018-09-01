@@ -13,14 +13,38 @@ import static com.kms.katalon.core.testcase.TestCaseFactory.findTestCase
  */
 public class GlobalVariable {
      
+    /**
+     * <p>Profile default : instance of HSSFWorkbook</p>
+     */
+    public static Object WORKBOOK
+     
+    /**
+     * <p></p>
+     */
+    public static Object CURRENT_TESTCASE_NAME
+     
+    /**
+     * <p></p>
+     */
+    public static Object CURRENT_TESTSUITE_NAME
+     
+    /**
+     * <p></p>
+     */
+    public static Object REPORT_FOLDER_NAME
+     
 
     static {
         def allVariables = [:]        
-        allVariables.put('default', [:])
+        allVariables.put('default', ['WORKBOOK' : null, 'CURRENT_TESTCASE_NAME' : '', 'CURRENT_TESTSUITE_NAME' : '', 'REPORT_FOLDER_NAME' : ''])
         
         String profileName = RunConfiguration.getExecutionProfile()
         
         def selectedVariables = allVariables[profileName]
+        WORKBOOK = selectedVariables['WORKBOOK']
+        CURRENT_TESTCASE_NAME = selectedVariables['CURRENT_TESTCASE_NAME']
+        CURRENT_TESTSUITE_NAME = selectedVariables['CURRENT_TESTSUITE_NAME']
+        REPORT_FOLDER_NAME = selectedVariables['REPORT_FOLDER_NAME']
         
     }
 }

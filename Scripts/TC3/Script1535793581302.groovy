@@ -10,4 +10,4 @@ String sheetName = (String)GlobalVariable.CURRENT_TESTCASE_NAME
 HSSFSheet sheet = CustomKeywords.'com.kazurayam.ksbackyard.HSSFSupport.findSheet'(wb, sheetName)
 
 HSSFRow row = sheet.createRow(0)
-row.createCell(0).setCellValue('The quick brown fox jumps over the lazy dog')
+row.createCell(0).setCellValue('El veloz murciélago hindú comía feliz cardillo y kiwi. La cigüeña tocaba el saxofón detrás del palenque de paja')
