@@ -1,4 +1,4 @@
-[Katalon Tips] Multiple Test Cases write data into a single Excel file
+Multiple Test Cases in a Test Suite safely write into an Excel file
 ======================================================================
 
 by kazurayam, 2018/09/02
