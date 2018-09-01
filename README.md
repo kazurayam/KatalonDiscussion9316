@@ -1,6 +1,8 @@
 [Katalon Tips] Multiple Test Cases write data into a single Excel file
 ======================================================================
 
+by kazurayam, 2018/09/02
+
 This is a [Katalon Studio](https://www.katalon.com/) project for demonstration purpose.
 You can clone this out to your PC and run it with your local Katalon Studio.
 
@@ -38,5 +40,7 @@ How can multiple Test Cases in a Katalon project share a single Excel file? I do
 I found that combination of the following points solve the problem.
 
 1. Each Test Case on start-up should look for the target Excel file. If it find the file, it should open the file and update it. If it does not find the file, it shoud create new file.
-2. Use GlobalVariable.WORKBOOK. In the GlobalVariable I would put the object instance of HSSFWorkbook class (representation of Excel book by Apache POI). The Test Cases of a Test Suite can share the HSSFWorkbook object in the GlobalVariable during a Test Suite run. Passing the HSSFWorkbook via GlobalVariable enables a Test Case `TC3` updates the sheet created by preceding `TC1` and `TC2`.
-3. Each Test Case should serialize the HSSFWorkbook object into file when the Test Case goes shotdown.
+2. Use GlobalVariable.WORKBOOK. In the GlobalVariable I would put the object instance of HSSFWorkbook class (representation of Excel book by Apache POI). The Test Cases of a Test Suite can share the HSSFWorkbook object in the GlobalVariable during a Test Suite run.
+3. Passing the HSSFWorkbook via GlobalVariable enables the Test Case `TC3` updates the sheet created by preceding `TC1` and `TC2`. Please read [the source of TC3](https://github.com/kazurayam/KatalonDiscussion9316/blob/master/Scripts/TC3/Script1535793581302.groovy).
+4. Each Test Case should serialize the HSSFWorkbook object into file when they shotdown.
+5. All of I/O processings to the Excel file are centralized in the [MyTestListener](https://github.com/kazurayam/KatalonDiscussion9316/blob/master/Test%20Listeners/MyTestListener.groovy). No Test Case makes I/O to the file. This design much simplifies the project and makes it easy to understand.
