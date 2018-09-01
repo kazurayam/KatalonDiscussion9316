@@ -28,6 +28,13 @@ import org.apache.poi.hssf.usermodel.HSSFSheet
 import org.apache.poi.hssf.usermodel.HSSFRow
 import org.apache.poi.hssf.usermodel.HSSFCell
 
+/**
+ * This Test Case will output a Excel file which contains a sheet named `TC2` which
+ * contains a pangram.
+ *
+ * Apache POI HSSFWorkbook objct will be prepared by MyTestListener@BeforeTestSuite method
+ * or MyTestListener@BeforeTestCase method.
+ */
 
 HSSFWorkbook wb = (HSSFWorkbook)GlobalVariable.WORKBOOK
 String sheetName = (String)GlobalVariable.CURRENT_TESTCASE_NAME

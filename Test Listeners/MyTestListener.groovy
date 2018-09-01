@@ -24,19 +24,11 @@ import net.bytebuddy.implementation.bytecode.constant.NullConstant
  */
 class MyTestListener {
 	
-	
-	static {
-		GlobalVariable.WORKBOOK = null
-		GlobalVariable.CURRENT_TESTSUITE_NAME = null
-		GlobalVariable.CURRENT_TESTCASE_NAME = null
-		//GlobalVariable.REPORT_FOLDER_NAME = null
-	}
-	
-	
+	// The folder to store Excel files
 	static final Path storageDir = Paths.get(RunConfiguration.getProjectDir()).resolve('Excel files')
 	
 	/**
-	 * if GlobalVariable.WORKBOOK is null, then create an instance of HSSFWorkbook 
+	 * create an instance of HSSFWorkbook (Apache POI Workbook) 
 	 * and store it into GlobalVariable.WORKBOOK
 	 *  
 	 * @param gb_workbook
@@ -57,11 +49,14 @@ class MyTestListener {
 			WebUI.comment("#openWorkbook opened Excel file at ${excelPath.toString()}")
 		} else {
 			WebUI.comment("#openWorkbook GlobalVariable.WORKBOOK was found not null")
-			WebUI.comment("#openWorkbook GlobalVariable.WORKBOOK was instance of ${GlobalVariable.WORKBOOK.getClass().getName()}")
-			WebUI.comment("#openWorkbook GlobalVariable.WORKBOOK=${GlobalVariable.WORKBOOK}")
 		}
 	}
-	
+
+	/**
+	 * serialize the HSSFWorkbook object into file
+	 * 	
+	 * @param gb_workbook
+	 */
 	static void closeWorkbook(GlobalVariable gb_workbook) {
 		if (GlobalVariable.WORKBOOK != null) {
 			String excelFileName = resolveExcelFileName()
@@ -78,6 +73,21 @@ class MyTestListener {
 		}
 	}
 	
+	/**
+	 * resolve Excel file name
+	 * 
+	 * When you invoked a Test Suite, then Excel file will be named in the format of
+	 *     <Test Suite name>.<Test Suite Report folder name>
+	 * for example
+	 *     TS_a.20180901_180938.xls
+	 * 
+	 * When you invoked a Test Case, then Excel file will be named in the format of
+	 *     <Test Case name>.xls
+	 * for example
+	 *     TC1.xls
+	 * 
+	 * @return
+	 */
 	static String resolveExcelFileName() {
 		String currentTestSuiteName
 		String reportFolderName
@@ -102,7 +112,11 @@ class MyTestListener {
 	
 
 	/**
+	 * Activated before Test Suite, will do the following stuff:
 	 * 
+	 * 1. set GlobalVariable.CURRENT_TESTSUITE_NAME with the name of executed Test Suite (without 'Test Suites/' prefix)
+	 * 2. set GlobalVariable.REPORT_FOLDER_NAME with yyyyMMdd_hhmmss value when the Test Suite started
+	 * 3. set GlobalVariable.WORKBOOK with the instance of HSSFWorkbook
 	 */
 	@BeforeTestSuite
 	def beforeTestSuite(TestSuiteContext testSuiteContext) {
@@ -111,7 +125,6 @@ class MyTestListener {
 		WebUI.comment("#beforeTestSuite GlobalVariable.CURRENT_TESTSUITE_NAME=${GlobalVariable.CURRENT_TESTSUITE_NAME}")
 		//
 		Path reportFolderPath = Paths.get(RunConfiguration.getReportFolder())
-		WebUI.comment("#beforeTestSuite reportFolderPath=${reportFolderPath.toString()}")
 		GlobalVariable.REPORT_FOLDER_NAME = reportFolderPath.getFileName().toString()
 		WebUI.comment("#beforeTestSuite GlobalVariable.REPORT_FOLDER_NAME=${GlobalVariable.REPORT_FOLDER_NAME}")
 		//
@@ -119,7 +132,10 @@ class MyTestListener {
 	}
 	
 	/**
-	 *
+	 * Activated before Test Case, will do the following stuff:
+	 * 
+	 * 1. set GlobalVariable.CURRENT_TESTCASE_NAME with the name of executed Test Case (without 'Test Cases/' prefix)
+	 * 2. set GlobalVariable.WORKBOOK with the instance of HSSFWorkbook
 	 */
 	@BeforeTestCase
 	def beforeTestCase(TestCaseContext testCaseContext) {
@@ -131,7 +147,10 @@ class MyTestListener {
 	}
 
 	/**
-	 *
+	 * Activated after Test Case, will do the following stuff:
+	 * 
+	 * 1. serialize the HSSFWorkbook object into file
+	 * 
 	 */
 	@AfterTestCase
 	def afterTestCase(TestCaseContext testCaseContext) {
@@ -140,7 +159,7 @@ class MyTestListener {
 	}
 	
 	/**
-	 *
+	 * has nothing to do
 	 */
 	@AfterTestSuite
 	def afterTestSuite(TestSuiteContext testSuiteContext) {
