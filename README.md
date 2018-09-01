@@ -31,16 +31,16 @@ I wanted to find out a solution to the following points:
 You can run the demo in 3 ways:
 1. You can select a single Test Case and run it. Running a Test Case `Test Cases/TC1` will result a file `Excel files/TC1.xls`.
 2. You can select a single Test Suite `TS_a` to run consisting Test Cases sequentially. Running a Test Suite `Test Suites/TS_a` will result a file `Excel files/TS_a.yyyyMMdd_hhmmss.xls`.
-3. You can run a Test Suite Collection `Test Suites/Execute`. It will result 2 files: `TS_a.yyyyMMdd_hhmmss.xls` and `TS_b.yyyyMMdd_hhmmss.xls`.
+3. You can run a Test Suite Collection `Test Suites/Execute`. It will result a files: `TS_a.yyyyMMdd_hhmmss.xls` again.
 
 ## Design note
 
-How can multiple Test Cases in a Katalon project share a single Excel file? I do not like the file written by a preceding Test Case `TC1` cleared by a Test Case `TC2` which follows; how can I implement this mutual file control?
+How can I make multiple Test Cases in a Test Suite safely share a single Excel file? Let me suppose a preceding Test Case `TC1` creates a sheet `TC1` in a Excel file, I do not want following Test Case `TC2` carelessly discard the `TC1` sheet.
 
 I found that combination of the following points solve the problem.
 
-1. Each Test Case on start-up should look for the target Excel file. If it find the file, it should open the file and update it. If it does not find the file, it shoud create new file.
+1. Each Test Case on start-up should look for the target Excel file. If it find the file, it should open the file and update it. If it does not find the file, it should create new file.
 2. Use GlobalVariable.WORKBOOK. In the GlobalVariable I would put the object instance of HSSFWorkbook class (representation of Excel book by Apache POI). The Test Cases of a Test Suite can share the HSSFWorkbook object in the GlobalVariable during a Test Suite run.
 3. Passing the HSSFWorkbook via GlobalVariable enables the Test Case `TC3` updates the sheet created by preceding `TC1` and `TC2`. Please read [the source of TC3](https://github.com/kazurayam/KatalonDiscussion9316/blob/master/Scripts/TC3/Script1535793581302.groovy).
-4. Each Test Case should serialize the HSSFWorkbook object into file when they shotdown.
-5. All of I/O processings to the Excel file are centralized in the [MyTestListener](https://github.com/kazurayam/KatalonDiscussion9316/blob/master/Test%20Listeners/MyTestListener.groovy). No Test Case makes I/O to the file. This design much simplifies the project and makes it easy to understand.
+4. Each Test Case should serialize the HSSFWorkbook object into file when they shutdown.
+5. All of I/O processing to the Excel file are centralized in the [MyTestListener](https://github.com/kazurayam/KatalonDiscussion9316/blob/master/Test%20Listeners/MyTestListener.groovy). No Test Case makes I/O to the file. This design much simplifies the project and makes it easy to understand.
