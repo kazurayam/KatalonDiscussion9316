@@ -13,7 +13,7 @@ Katalon Forum:
 
 - [Writing Data in Excel](https://forum.katalon.com/discussion/9316/writing-data-in-excel)
 
-The questioner of the post wanted Katalon Test Cases/Test Suites to write data into an Excel file.
+The questioner of the post wanted multiple Test Cases in a Test Suite to write data into a single Excel file.
 
 I think that the theme is not trivial. It requires appropriate design and some amount of programming efforts. I tried to create a demo project here.
 
@@ -44,3 +44,8 @@ I found that combination of the following points solve the problem.
 3. Passing the HSSFWorkbook via GlobalVariable enables the Test Case `TC3` updates the sheet created by preceding `TC1` and `TC2`. Please read [the source of TC3](https://github.com/kazurayam/KatalonDiscussion9316/blob/master/Scripts/TC3/Script1535793581302.groovy).
 4. Each Test Case should serialize the HSSFWorkbook object into file when they shutdown.
 5. All of I/O processing to the Excel file are centralized in the [MyTestListener](https://github.com/kazurayam/KatalonDiscussion9316/blob/master/Test%20Listeners/MyTestListener.groovy). No Test Case makes I/O to the file. This design much simplifies the project and makes it easy to understand.
+
+## Note
+
+If you use Katalon Studio 5.8.0 - 5.8.3, then this project will not work due to a defect of Katalon Studio. See 
+https://forum.katalon.com/t/5-8-0-globalvariable-of-type-null-is-not-allowed-no-longer-store-instances-of-user-defined-class/13873

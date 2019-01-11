@@ -39,12 +39,19 @@ public class GlobalVariable {
         allVariables.put('default', ['WORKBOOK' : null, 'CURRENT_TESTCASE_NAME' : '', 'CURRENT_TESTSUITE_NAME' : '', 'REPORT_FOLDER_NAME' : ''])
         
         String profileName = RunConfiguration.getExecutionProfile()
-        
         def selectedVariables = allVariables[profileName]
-        WORKBOOK = selectedVariables['WORKBOOK']
-        CURRENT_TESTCASE_NAME = selectedVariables['CURRENT_TESTCASE_NAME']
-        CURRENT_TESTSUITE_NAME = selectedVariables['CURRENT_TESTSUITE_NAME']
-        REPORT_FOLDER_NAME = selectedVariables['REPORT_FOLDER_NAME']
+		
+		for(object in selectedVariables){
+			String overridingGlobalVariable = RunConfiguration.getOverridingGlobalVariable(object.key)
+			if(overridingGlobalVariable != null){
+				selectedVariables.put(object.key, overridingGlobalVariable)
+			}
+		}
+
+        WORKBOOK = selectedVariables["WORKBOOK"]
+        CURRENT_TESTCASE_NAME = selectedVariables["CURRENT_TESTCASE_NAME"]
+        CURRENT_TESTSUITE_NAME = selectedVariables["CURRENT_TESTSUITE_NAME"]
+        REPORT_FOLDER_NAME = selectedVariables["REPORT_FOLDER_NAME"]
         
     }
 }
