@@ -22,9 +22,12 @@ I think that the theme is not trivial. It requires appropriate design and some a
 I wanted to find out a solution to the following points:
 
 1. I want my Katalon Studio project to generate a single Excel file where my Test Cases store anonymous data.
-2. I want to name the Excel file in such format. If I start a Test Suite named `TS_a` then it creates a file named `TS_a` followed by the timestamp when it was started. For example,  it would be `TS_a.20180901_091020.xls`. If I select a Test Case named `TC1` then it will create a file named `TC1.xls` without timestamp.
-3. I want 2 or more Test Cases in a Test Suite share a file and update it mutually. Test Case `TC2` should not carelessly erase data written in the file by preceding Test Case `TC1`.
-4. I want to create sheet per each test case. If I have a Test Suite which contains 2 Test Cases `TC1` and `TC2`, then running the Test Suite should result a Excel file containing 2 sheets: `TC1` sheet and `TC2` sheet.
+2. I want to name the Excel file in such format.
+  - If I start a Test Suite named `TS_a` then it creates a file named `TS_a` followed by the timestamp when it was started. For example,  it would be `TS_a.20180901_091020.xls`.
+  - If I select a Test Case named `TC1` then it will create a file named `TC1.xls` without timestamp.
+3. I want to create a sheet per each test case. If I have a Test Suite which contains 2 Test Cases `TC1` and `TC2`, then running the Test Suite should result a Excel file containing 2 sheets: `TC1` sheet and `TC2` sheet.
+4. I want 2 or more Test Cases in a Test Suite share a single Excel file and update it mutually. The Test Case `TC3` should be able to read and update the sheet `TC1` and `TC2`.
+5. A Test Case should not carelessly erase data created by preceding Test Cases. E.g, Test Case `TC2` should not carelessly erase the sheet `TC1`.
 
 ## How to run the demo
 

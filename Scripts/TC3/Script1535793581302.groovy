@@ -22,12 +22,12 @@ def updateSheet(HSSFWorkbook wb, String testCaseName, String sentence) {
 	row.createCell(0).setCellValue(sentence)
 }
 
-// refer to the sheet 'TC1' created by the Test Case 'TC1' and update it
-updateSheet(wb, 'TC1', 'The Test Case TC3 says Hello')
+// test case TC3 updates the sheet 'TC1'
+updateSheet(wb, 'TC1', 'TC3 said Hello to TC1')
 
-// refer to the sheet 'TC2' created by the Test Case 'TC2' and update it
-updateSheet(wb, 'TC2', 'ТС3 говорил До свидания.')
+// test case TC3 updates the sheet 'TC2'
+updateSheet(wb, 'TC2', 'ТС3 поприветствовал TC2')
 
 /*
- * The Excel file will be written by MyTestListener's @AfterTestCase method.
+ * The Excel sheets will be saved into File by MyTestListener's @AfterTestCase method.
  */

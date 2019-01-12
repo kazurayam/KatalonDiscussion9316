@@ -25,7 +25,7 @@ import net.bytebuddy.implementation.bytecode.constant.NullConstant
 class MyTestListener {
 	
 	// The folder to store Excel files
-	static final Path storageDir = Paths.get(RunConfiguration.getProjectDir()).resolve('Excel files')
+	private final Path storageDir = Paths.get(RunConfiguration.getProjectDir()).resolve('Excel files')
 	
 	/**
 	 * create an instance of HSSFWorkbook (Apache POI Workbook) 
@@ -33,7 +33,7 @@ class MyTestListener {
 	 *  
 	 * @param gb_workbook
 	 */
-	static void openWorkbook() {
+	void openWorkbook() {
 		if (GlobalVariable.WORKBOOK == null) {
 			String excelFileName = resolveExcelFileName()
 			Path excelPath = storageDir.resolve(excelFileName)
@@ -57,7 +57,7 @@ class MyTestListener {
 	 * 	
 	 * @param gb_workbook
 	 */
-	static void closeWorkbook(GlobalVariable gb_workbook) {
+	void closeWorkbook(GlobalVariable gb_workbook) {
 		if (GlobalVariable.WORKBOOK != null) {
 			String excelFileName = resolveExcelFileName()
 			Path excelPath = storageDir.resolve(excelFileName)
@@ -88,20 +88,23 @@ class MyTestListener {
 	 * 
 	 * @return
 	 */
-	static String resolveExcelFileName() {
+	String resolveExcelFileName() {
 		String currentTestSuiteName
 		String reportFolderName
 		String currentTestCaseName
-		if (GlobalVariable.CURRENT_TESTSUITE_NAME != null) {
+		if (GlobalVariable.CURRENT_TESTSUITE_NAME != null &&
+			((String)GlobalVariable.CURRENT_TESTSUITE_NAME).length() > 0) {
 			currentTestSuiteName = (String)GlobalVariable.CURRENT_TESTSUITE_NAME
-			if (GlobalVariable.REPORT_FOLDER_NAME != null) {
+			if (GlobalVariable.REPORT_FOLDER_NAME != null &&
+				((String)GlobalVariable.REPORT_FOLDER_NAME).length() > 0) {
 				reportFolderName = (String)GlobalVariable.REPORT_FOLDER_NAME
 				return "${currentTestSuiteName}.${reportFolderName}.xls"     // 'TS_a.20180901_180938.xls'
 			} else {
 				throw new IllegalStateException("GlobalVariable.REPORT_FOLDER_NAME is null")
 			}
 		} else {
-			if (GlobalVariable.CURRENT_TESTCASE_NAME != null) {
+			if (GlobalVariable.CURRENT_TESTCASE_NAME != null &&
+				((String)GlobalVariable.CURRENT_TESTCASE_NAME).length() > 0) {
 				currentTestCaseName = (String)GlobalVariable.CURRENT_TESTCASE_NAME
 					return "${currentTestCaseName}.xls"
 			} else {
